@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>kalendorius</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="kalendorius_style.css">
+	<script src="kalendorius_script.js"></script>
+</head>
+
+<body>
+
+<div class="container-fluid text-center">
+	<div class="jumbotron text-center heading">
+		<div class="row text-center">
+			<div class="col-sm-2" style="padding: 0px;"></div>
+			<div class="col-sm-1" style="padding: 0px;">
+				<button class="btn btn-info" id="prew" ><span class="glyphicon glyphicon-triangle-left logo"  style="padding: 0px;"></span></button>
+			</div>
+			<div class="col-sm-5" style="background-color: white;padding:0px">
+				<h1 id="mėnuo" style="font-weight: bold; color: #0066ff; padding: 0px;">Mėnuo</h1>
+			</div>
+			<div class="col-sm-1" style="padding: 0px;">
+				<button class="btn btn-info" id="next"><span class="glyphicon glyphicon-triangle-right logo" style=""></span></button>
+			</div>
+		</div>
+	</div>
+
+	<div class="jumbotron text-center kalendar_frame" >
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-1">
+				<p id="1-1"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="1-2"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="1-3"></p>
+			</div>
+			<div class="col-sm-1">
+					<p id="1-4"></p>
+			</div>
+			<div class="col-sm-1">
+					<p id="1-5">kkk</p>
+			</div>
+			<div class="col-sm-1">
+				<p id="1-6"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="1-7"></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-1">
+				<p id="2-1"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="2-2"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="2-3"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="2-4"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="2-5"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="2-6"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="2-7"></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-1">
+				<p id="3-1"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="3-2"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="3-3"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="3-4"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="3-5"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="3-6"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="3-7"></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-1">
+				<p id="4-1"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="4-2"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="4-3"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="4-4"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="4-5"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="4-6"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="4-7"></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-1">
+				<p id="5-1"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="5-2"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="5-3"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="5-4"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="5-5"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="5-6"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="5-7"></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-1">
+				<p id="6-1"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="6-2"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="6-3"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="6-4"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="6-5"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="6-6"></p>
+			</div>
+			<div class="col-sm-1">
+				<p id="6-7"></p>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+.btn{
+width: 100px;
+height: 100px;
+padding-left: 0px;
+padding-right: 0px;
+background-color: #0066ff;
+}
+.kalendar_frame{
+background-color: #0066ff;
+}
+.kalendar_days{
+background-color: orange;
+}
+.logo{
+		font-size: 50px;
+}
