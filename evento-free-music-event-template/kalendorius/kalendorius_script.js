@@ -116,63 +116,85 @@ var slide=0;
 						}
 					}
 				}
-				console.log(lastSunday);
-				$("#countdown").countdown({
-					date: lastSunday+" july 2017 12:00:00",
-					format: "on"
-				},
-		
-					function() {
-					// callback function
-				});
+				
+				var mėnCountdown;
 				if(mėnuo==0){
 					$("#mėnuo").html("Sausis");
 					$(".heading").css("background","url('poker-chips2_1920x1200.jpg')");
+					mėnCountdown="january";
 				}
 				else if(mėnuo==1){
 					$("#mėnuo").html("Vasaris");
 					$(".heading").css("background","url('6b463dad-41ac-4d06-be41-eac49959ef3b.jpg')");
+					mėnCountdown="february";
 				}
 				else if(mėnuo==2){
 					$("#mėnuo").html("Kovas");
 					$(".heading").css("background","url('88fb94b7a35841428b7761bece81cb61.jpg')");
+					mėnCountdown="march";
 				}
 				else if(mėnuo==3){
 					$("#mėnuo").html("Balandis");
 					$(".heading").css("background","url('abstract blue multicolor cgi digital art artwork 3d tp_wallpaperswa.com_53.jpg')");
+					mėnCountdown="april";
 					menuo="april";
 				}
 				else if(mėnuo==4){
 					$("#mėnuo").html("Gegužė");
 					$(".heading").css("background","url('blue_binary-code.jpg')");
+					mėnCountdown="may";
 				}
 				else if(mėnuo==5){
 					$("#mėnuo").html("Birželis");
 					$(".heading").css("background","url('blue-and-black-wallpapers520994.jpg')");
+					mėnCountdown="june";
 				}
 				else if(mėnuo==6){
 					$("#mėnuo").html("Liepa");
 					$(".heading").css("background","url('Blue-Wallpaper-15.jpg')");
+					mėnCountdown="july";
 				}
 				else if(mėnuo==7){
 					$("#mėnuo").html("Rugpjūtis");
 					$(".heading").css("background","url('Blue-Wallpaper-For-Background-30.jpg')");
+					mėnCountdown="august";
 				}
 				else if(mėnuo==8){
 					$("#mėnuo").html("Rugsėjis");
 					$(".heading").css("background","url('wallpaper-16.jpg')");
+					mėnCountdown="september";
 				}
 				else if(mėnuo==9){
 					$("#mėnuo").html("Spalis");
 					$(".heading").css("background","url('black-and-blue-wallpaper-1080p.jpg')");
+					mėnCountdown="october";
 				}
 				else if(mėnuo==10){
 					$("#mėnuo").html("Lapkritis");
 					$(".heading").css("background","url('keyboard_backlit_black_blue_31057_1920x1080.jpg')");
+					mėnCountdown="november";
 				}
 				else if(mėnuo==11){
 					$("#mėnuo").html("Gruodis");
 					$(".heading").css("background","url('1GWQUvh.jpg')");
+					mėnCountdown="december";
+				}
+				if(slide==0){console.log(lastSunday);
+					console.log(mėnesioDiena);
+					if(mėnesioDiena<lastSunday){
+						$("#countdown").countdown({
+							date: lastSunday+" "+mėnCountdown+" "+metai+" 00:00:00",
+							format: "on"
+						},
+		
+							function() {
+							// callback function
+						})
+					}
+					else if(mėnesioDiena==lastSunday){
+						$(".time-font")=0;
+						$("#countdownh2")="Šiandien vyksta turnyras, registracija uždaryta";
+					}
 				}
 			}
 			
