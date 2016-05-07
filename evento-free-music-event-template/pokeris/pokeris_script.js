@@ -4,10 +4,6 @@ $(document).ready(function(){
 	p2=[];
 	p3=[];
 	p4=[];
-	// var p1strenght;
-	// var p2strenght;
-	// var p3strenght;
-	// var p4strenght;
 
 	shufleCards();
 	function shufleCards(){
@@ -23,29 +19,30 @@ $(document).ready(function(){
 		p2.unshift(0);
 		p3.unshift(0);
 		p4.unshift(0);
-		// findHighCard(p1);
-		// findHighCard(p2);
-		// findHighCard(p3);
-		// findHighCard(p4);
+		
 		var p1hand=[0];
 		var p2hand=[0];
 		var p3hand=[0];
 		var p4hand=[0];
 
 		findHighestPair(p1,p1hand);
-		findHighestPair(p2,p2hand);
-		findHighestPair(p3,p3hand);
-		findHighestPair(p4,p4hand);
-
-		console.log("player1Hand");
 		for(var i=0;i<p1hand.length;i++){
 			console.log(p1hand[i])
 		}
+		findHighestPair(p2,p2hand);
+		for(var i=0;i<p2hand.length;i++){
+			console.log(p2hand[i])
+		}
+		findHighestPair(p3,p3hand);
+		for(var i=0;i<p3hand.length;i++){
+			console.log(p3hand[i])
+		}
+		findHighestPair(p4,p4hand);
+		for(var i=0;i<p4hand.length;i++){
+			console.log(p4hand[i])
+		}
+
 		
-		// console.log(p1[0]);
-		// console.log(p2[0]);
-		// console.log(p3[0]);
-		// console.log(p4[0]);
 	}
 
 	function resetDeck(){
@@ -57,7 +54,6 @@ $(document).ready(function(){
 		drawnCard=Math.floor((Math.random()*cardDeck.length)+1);
 		if(cardDeck[drawnCard-1]!=0){
 			$("#"+player+"player").html($("#"+player+"player").html()+" "+cardDeck[drawnCard-1]);
-			//console.log(player);
 			if(player==1){
 				p1.unshift(drawnCard-1);
 				}
@@ -141,23 +137,9 @@ $(document).ready(function(){
 			if(player[i]==0||player[i]==13||player[i]==26||player[i]==39){
 				player[0]=13;
 			}}
-			//console.log(player)
 	}
 
 	function findHighestPair(player,hand){
-		// var numberOfa=0;
-		// var numberOf2=0;
-		// var numberOf3=0;
-		// var numberOf4=0;
-		// var numberOf5=0;
-		// var numberOf6=0;
-		// var numberOf7=0;
-		// var numberOf8=0;
-		// var numberOf9=0;
-		// var numberOf10=0;
-		// var numberOfj=0;
-		// var numberOfq=0;
-		// var numberOfk=0;
 		var numberOfCards=[0,0,0,0,0,0,0,0,0,0,0,0,0];
 		for(var i=1;i<=player.length;i++){
 			if(player[i]==0||player[i]==13||player[i]==26||player[i]==39){
@@ -200,20 +182,11 @@ $(document).ready(function(){
 				numberOfCards[11]++;
 			}
 		}
-		 // for(var i=0;i<13;i++){
-		 // 	console.log(numberOfCards[i])
-		 // }
-		 //console.log(player[0]+"s")
 		var cardsx1=[];
 		var cardsx2=[];
 		var cardsx3=[];
 		var cardsx4=[];
 		for(var i=0;i<13;i++){
-			// daugiausiaiVienoduKortu=Math.max(daugiausiaiVienoduKortu,numberOfCards[i]);
-			// //console.log(daugiausiaiVienoduKortu)
-			// if(daugiausiaiVienoduKortu==numberOfCards[i]){
-			// 	player[0]=i+2;
-			// }
 			if(numberOfCards[i]==4){
 				cardsx4.unshift(i+2);
 			}
@@ -227,9 +200,7 @@ $(document).ready(function(){
 				cardsx1.unshift(i+2);
 			}
 		}
-		//console.log(cardsx1[0])
 		if(cardsx4.length>0){
-			console.log("4x "+cardsx4[0]+" 1x "+cardsx1[0]);
 			hand[0]=8;
 			hand.push(cardsx4[0]);
 			hand.push(cardsx1[0]);
@@ -237,13 +208,12 @@ $(document).ready(function(){
 		}
 		else if(cardsx3.length>0){
 			if(cardsx2.length>0){
-				console.log("3x "+cardsx3[0]+" 2x "+cardsx2[0])
 				hand[0]=7;
 				hand.push(cardsx3[0]);
 				hand.push(cardsx2[0]);
 				console.log("FULL HOUSE")
 			}
-			else{console.log("3x "+cardsx3[0]+" 1x "+cardsx1[0]+" "+cardsx1[1])
+			else{
 				hand[0]=4;
 				hand.push(cardsx3[0]);
 				hand.push(cardsx1[0]);
@@ -253,14 +223,13 @@ $(document).ready(function(){
 		}
 		else if(cardsx2.length>0){
 			if(cardsx2.length>1){
-				console.log("2x "+cardsx2[0]+" "+cardsx2[1]+" 1x "+cardsx1[0]);
 				hand[0]=3;
 				hand.push(cardsx2[0]);
 				hand.push(cardsx2[1]);
 				hand.push(cardsx1[0]);
 				console.log("TWO PAIRS")
 			}
-			else{console.log("2x "+cardsx2[0]+" 1x "+cardsx1[0]+" "+cardsx1[1]+" "+cardsx1[2])
+			else{
 				hand[0]=2;
 				hand.push(cardsx2[0]);
 				hand.push(cardsx1[0]);
@@ -269,7 +238,7 @@ $(document).ready(function(){
 				console.log("ONE PAIR")
 			}
 		}
-		else{console.log("1x "+cardsx1[0]+" "+cardsx1[1]+" "+cardsx1[2]+" "+cardsx1[3]+" "+cardsx1[4])
+		else{
 			hand[0]=1;
 			hand.push(cardsx1[0]);
 			hand.push(cardsx1[1]);
@@ -315,7 +284,6 @@ $(document).ready(function(){
 				diamonds++;
 			}
 		}
-			console.log("spades="+spades+" clubs="+clubs+" diamonds="+diamonds+" hearths="+hearths)	
 		if(spades>4){
 			var highspades=[];
 			for(var i=0;i<player.length;i++){
@@ -331,7 +299,6 @@ $(document).ready(function(){
 			highspades.sort(function(a, b){return a-b});
 			if(hand[0]<5){
 				for(var i=0;i<highspades.length;i++){
-					console.log(highspades[i]+1)
 					hand.unshift(highspades[i]+1);
 				}
 				hand.unshift(6);}
@@ -355,7 +322,6 @@ $(document).ready(function(){
 			highclub.sort(function(a, b){return a-b});
 			if(hand[0]<5){
 				for(var i=0;i<highclub.length;i++){
-					console.log(highclub[i]+1)
 					hand.unshift(highclub[i]+1);
 				}
 				hand.unshift(6);}
@@ -379,7 +345,6 @@ $(document).ready(function(){
 			highdiamonds.sort(function(a, b){return a-b});
 			if(hand[0]<5){
 				for(var i=0;i<highdiamonds.length;i++){
-					console.log(highdiamonds[i]+1)
 					hand.unshift(highdiamonds[i]+1);
 				}
 				hand.unshift(6);}
@@ -403,7 +368,6 @@ $(document).ready(function(){
 			highhearts.sort(function(a, b){return a-b});
 			if(hand[0]<5){
 				for(var i=0;i<highhearts.length;i++){
-					console.log(highhearts[i]+1)
 					hand.unshift(highhearts[i]+1);
 				}
 				hand.unshift(6);}
