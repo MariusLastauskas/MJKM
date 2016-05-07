@@ -8,6 +8,12 @@ $(document).ready(function(){
 	shufleCards();
 	function shufleCards(){
 		resetDeck();
+
+				// $("#1player").html("<p></p>");
+				// $("#2player").html("<p></p>");
+				// $("#3player").html("<p></p>");
+				// $("#4player").html("<p></p>");
+		
 		for(var j=0;j<2;j++){
 			for(var i=1;i<=4;i++){
 				dealHand(i);
@@ -46,14 +52,15 @@ $(document).ready(function(){
 	}
 
 	function resetDeck(){
-		cardDeck=["as","2s","3s","4s","5s","6s","7s","8s","9s","10s","js","qs","ks","ac","2c","3c","4c","5c","6c","7c","8c","9c","10c","jc","qc","kc","ah","2h","3h","4h","5h","6h","7h","8h","9h","10h","jh","qh","kh","ad","2d","3d","4d","5d","6d","7d","8d","9d","10d","jd","qd","kd"];		
+		cardDeck=["as.png","2s.png","3s.png","4s.png","5s.png","6s.png","7s.png","8s.png","9s.png","10s.png","js.png","qs.png","ks.png","ac.png","2c.png","3c.png","4c.png","5c.png","6c.png","7c.png","8c.png","9c.png","10c.png","jc.png","qc.png","kc.png","ah.png","2h.png","3h.png","4h.png","5h.png","6h.png","7h.png","8h.png","9h.png","10h.png","jh.png","qh.png","kh.png","ad.png","2d.png","3d.png","4d.png","5d.png","6d.png","7d.png","8d.png","9d.png","10d.png","jd.png","qd.png","kd.png"];		
 	}
 
 	function dealHand(player){
 		var drawnCard;
 		drawnCard=Math.floor((Math.random()*cardDeck.length)+1);
 		if(cardDeck[drawnCard-1]!=0){
-			$("#"+player+"player").html($("#"+player+"player").html()+" "+cardDeck[drawnCard-1]);
+			if(player==4)
+				$("#"+player+"player").html($("#"+player+"player").html()+" <img src='"+cardDeck[drawnCard-1]+"'>");
 			if(player==1){
 				p1.unshift(drawnCard-1);
 				}
@@ -74,7 +81,7 @@ $(document).ready(function(){
 		var drawnCard;
 		drawnCard=Math.floor((Math.random()*cardDeck.length)+1);
 		if(cardDeck[drawnCard-1]!=0){
-			$("#table").html($("#table").html()+" "+cardDeck[drawnCard-1]);
+			//$("#table").html($("#table").html()+" <img src='"+cardDeck[drawnCard-1]+"'>");
 			p1.unshift(drawnCard-1);
 			p2.unshift(drawnCard-1);
 			p3.unshift(drawnCard-1);

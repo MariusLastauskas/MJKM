@@ -4,69 +4,94 @@
 	<title></title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script type="text/javascript" src="pokeris_script.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+ 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+ 	<style type="text/css">
+ 	img{
+ 		height: 130px;
+ 	}
+ 	</style>
 </head>
 <body>
 
-<div class="container fluid" style="background: url('poker-hq-casino-grunge-imagen-el-minimalismo-1066165.jpg'); background-size: 100% 100%;background-repeat: no-repeat; width:100%;height: 640px;padding: 0px">
-
-<!-- 
+<div class="container fluid" style="background: url('poker-hq-casino-grunge-imagen-el-minimalismo-1066165.jpg'); background-size: 100% 100%;background-repeat: no-repeat; width:100%;height: 640px;padding: 0px"><!-- 
 <p id="1player">1player: </p><p id="p11"></p><p id="p12"></p><br>
 <p id="2player">2player: </p><p id="p21"></p><p id="p22"></p><br>
 <p id="3player">3player: </p><p id="p31"></p><p id="p32"></p><br>
 <p id="4player">4player: </p><p id="p41"></p><p id="p42"></p><br>
-<p id="table">table:</p><p id="t1"></p><p id="t2"></p><p id="t3"></p><p id="t4"></p><p id="t5"></p><br> -->
+<p id="table">table:</p><p id="t1"></p><p id="t2"></p><p id="t3"></p><p id="t4"></p><p id="t5"></p><br> 
+ -->	<div class="row">
+			<div class="col-sm-5"></div>
+			<div class="col-sm-3">
+				<p id="2player"><img src="backcard.png"><img src="backcard.png"></p><p id="pos2">D</p><p id="move2">MOVE</p>
+			</div>
+			<div class="col-sm-1">
+				<p id="money1">1000$</p>
+				<p id="ontable1">0$</p>
+			</div>
+			<!-- <div class="col-sm-1">
+				<p id="p12"></p>
+			</div> -->
+		</div>
 	<div class="row">
+		<div class="col-sm-2">
+			<p id="1player"><img src="backcard.png"><img src="backcard.png"></p></p><p id="pos1">D</p><p id="move1">MOVE</p>
+		</div>
+		<!-- <div class="col-sm-1">
+			<p id="p22"></p>
+		</div> -->
+		<div class="col-sm-1">
+				<p id="money2">1000$</p>
+				<p id="ontable2">0$</p>
+			</div>
+		<div class="col-sm-6">
+			<p id="table"><img src="backcard.png"><img src="backcard.png"><img src="backcard.png"><img src="backcard.png"><img src="backcard.png"> </p>
+			<p ip="pot" style="text-align: center;">potas</p>
+		</div>
+		<!-- <div class="col-sm-1">
+			<p id="t2"></p>
+		</div>
+		<div class="col-sm-1">
+			<p id="t3"></p>
+		</div>
+		<div class="col-sm-1">
+			<p id="t4"></p>
+		</div>
+		<div class="col-sm-1">
+			<p id="t5"></p>
+		</div> -->
+		<!-- <div class="col-sm-1">
+			<img src="backcard.png">
+		</div> -->
+		<div class="col-sm-2">
+			<p id="3player"><img src="backcard.png"><img src="backcard.png"></p></p><p id="pos3">D</p><p id="move3">MOVE</p>
+		</div>
+		<div class="col-sm-1">
+				<p id="money3">1000$</p>
+				<p id="ontable3">0$</p>
+			</div>
+		<!-- <div class="col-sm-1"> 
+			<p id="p32"></p>
+		</div> -->
+	</div>
+	<div class="row" style="margin-bottom: 0px;">
 		<div class="col-sm-5"></div>
-		<div class="col-sm-1">
-			PIRMA KORTA
+		<div class="col-sm-2">
+			<p id="pos4">D</p><p id="move4">MOVE</p><p id="4player"></p></p>
 		</div>
 		<div class="col-sm-1">
-			ANTRA KORTA
-		</div>
+				<p id="money4">1000$</p>
+				<p id="ontable4">0$</p>
+			</div><!-- 
+		<div class="col-sm-1">
+			<p id="p42"></p>
+		</div> -->
 	</div>
 	<div class="row">
-		<div class="col-sm-1">
-			
-		</div>
-		<div class="col-sm-1">
-			
-		</div>
-		<div class="col-sm-1"></div>
-		<div class="col-sm-1">
-			
-		</div>
-		<div class="col-sm-1">
-			
-		</div>
-		<div class="col-sm-1">
-			
-		</div>
-		<div class="col-sm-1">
-			
-		</div>
-		<div class="col-sm-1">
-			
-		</div>
-		<div class="col-sm-1">
-			
-		</div>
-		<div class="col-sm-1"></div>
-		<div class="col-sm-1">
-			
-		</div>
-		<div class="col-sm-1">
-			
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-5"></div>
-		<div class="col-sm-1">
-			
-		</div>
-		<div class="col-sm-1">
-			
+		<div class="col-sm-12" style="text-align: center;">
+			<button class="btn btn-warning" style="align: center;">fold</button>
+			<button class="btn btn-warning" style="align: center;">bet</button>
+			<button class="btn btn-warning" style="align: center;">check</button>
 		</div>
 	</div>
 	
