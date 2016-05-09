@@ -5,6 +5,121 @@ $(document).ready(function(){
 	p3=[];
 	p4=[];
 
+	var tablemove=0;
+	var round=0;
+
+	var p1money=500;
+	var p2money=500;
+	var p3money=500;
+	var p4money=500;
+
+	var p1bid=0;
+	var p2bid=0;
+	var p3bid=0;
+	var p4bid=0;
+
+	var pot=0;
+	var smallblind=10;
+	var bigblind=20;
+	var dealer=1;
+	var reqbid=bigblind;
+	var lastPlayer;
+
+	blindBidding(dealer);
+
+	function blindBidding(D){
+		if(D==1){
+			p2bid+=smallblind;
+			$('#ontable2').html(p2bid+"$");
+			p3bid+=bigblind;
+			$('#ontable3').html(p3bid+"$");
+			p2money-=smallblind;
+			$('#money2').html(p2money+'$');
+			p3money-=bigblind;
+			$("#money3").html(p3money+"$");
+			$('#pos1').html("D");
+			$('#pos2').html("SB");
+			$('#pos3').html("BB");
+			$('#pos4').html(" ");
+			lastPlayer=3;
+		}
+		else if(D==2){
+			p3bid+=smallblind;
+			$('#ontable3').html(p3bid+"$");
+			p4bid+=bigblind;
+			$('#ontable4').html(p4bid+"$");
+			p3money-=smallblind;
+			$('#money3').html(p3money+'$');
+			p4money-=bigblind;
+			$("#money4").html(p4money+"$");
+			$('#pos2').html("D");
+			$('#pos3').html("SB");
+			$('#pos4').html("BB");
+			$('#pos1').html(" ");
+			lastPlayer=4;
+		}
+		else if(D==3){
+			p4bid+=smallblind;
+			$('#ontable4').html(p4bid+"$");
+			p1bid+=bigblind;
+			$('#ontable1').html(p1bid+"$");
+			p4money-=smallblind;
+			$('#money4').html(p4money+'$');
+			p3money-=bigblind;
+			$("#money1").html(p1money+"$");
+			$('#pos3').html("D");
+			$('#pos4').html("SB");
+			$('#pos1').html("BB");
+			$('#pos2').html(" ");
+			lastPlayer=1;
+		}
+		else if(D==4){
+			p1bid+=smallblind;
+			$('#ontable1').html(p1bid+"$");
+			p2bid+=bigblind;
+			$('#ontable2').html(p2bid+"$");
+			p1money-=smallblind;
+			$('#money1').html(p1money+'$');
+			p2money-=bigblind;
+			$("#money2").html(p2money+"$");
+			$('#pos4').html("D");
+			$('#pos1').html("SB");
+			$('#pos2').html("BB");
+			$('#pos3').html(" ");
+			lastPlayer=2;
+		}
+	}
+	playingRound(dealer);
+
+	function playingRound(dealer){
+		if(round==0){
+			if(dealer==1){
+				playerturn();
+				// pcturn(1);
+				// pcturn(2);
+				// pcturn(3);
+			}
+			else if(dealer==2){
+				pcturn(1);
+				pcturn(2);
+				pcturn(3);
+				playerturn();
+			}
+			else if(dealer==3){
+				pcturn(2);
+				pcturn(3);
+				playerturn();
+				// pcturn(1);
+			}
+			else{
+				pcturn(3);
+				playerturn();
+				// pcturn(1);
+				// pcturn(2);
+			}
+		}
+	}
+
 	shufleCards();
 	function shufleCards(){
 		resetDeck();
@@ -19,8 +134,10 @@ $(document).ready(function(){
 				dealHand(i);
 			}
 		}
-		for(var i=0;i<5;i++){
-			dealTable();}
+
+		// for(var i=0;i<5;i++){
+		// 	dealTable();}
+
 		p1.unshift(0);
 		p2.unshift(0);
 		p3.unshift(0);
@@ -384,4 +501,117 @@ $(document).ready(function(){
 				}
 		}
 	}
+
+	function fold(player){
+		$('#move'+player).html('FOLD');
+		if(player==lastPlayer){
+			//table();
+		}
+	}
+
+	function check(player){
+		$("#move"+player).html('CHECK');
+		// console.log("ss");
+		if(player==lastPlayer){
+			//table();
+		}
+	}
+
+	function bet(player,playermoney,playerbid){
+		$('#move'+player).html('BET');
+		lastPlayer=player;
+		reqbid+=bigblind;
+		playermoney-=reqbid;
+		$("#money"+player).html(playermoney+"$");
+		playerbid=reqbid;
+		$("#ontable"+player).html(playerbid+"$");
+	}
+
+	function call(player,playermoney,playerbid){
+		$('#move'+player).html('CALL');
+		playermoney-=reqbid;
+		$("#money"+player).html(playermoney+"$");
+		playerbid=reqbid;
+		$('#ontable'+player).html(playerbid+"$");
+	}
+
+	function table(){
+		if(tablemove==0){
+			for(var i=0;i<3;i++){
+			dealTable();}
+			tablemove++;
+		}
+		else{
+			dealTable();
+		}
+	}
+
+	function pcturn(player){
+		call(player);
+	}
+
+	function playerturn(){
+		$(".btn-warning").removeClass("disabled");
+
+	}
+
+	$("#btn-fold").click(function(){
+		fold(4);
+		$(".btn-warning").addClass("disabled");
+		if(dealer==1){
+			pcturn(1);
+			pcturn(2);
+			pcturn(3);
+		}
+		else if(dealer==3){
+			pcturn(1);
+		}
+		else if(dealer==4){
+			pcturn(1);
+			pcturn(2);
+		}
+	})
+
+	$("#btn-bet").click(function(){
+		bet(4,p4money,p4bid);
+		$(".btn-warning").addClass("disabled");
+		if(dealer==1){
+			pcturn(1);
+			pcturn(2);
+			pcturn(3);
+		}
+		else if(dealer==3){
+			pcturn(1);
+		}
+		else if(dealer==4){
+			pcturn(1);
+			pcturn(2);
+		}
+	})
+
+	$("#btn-checkcall").click(function(){
+		// console.log(reqbid);
+		// console.log(p4bid);
+		if(reqbid>p4bid){
+			call(4,p4money,p4bid);
+			// console.log("ss")
+		}
+		else{
+			check(4,p4money,p4bid);
+		}
+		$(".btn-warning").addClass("disabled");
+		if(dealer==1){
+			console.log("ss")
+			pcturn(1);
+			pcturn(2);
+			pcturn(3);
+		}
+		else if(dealer==3){
+			pcturn(1);
+		}
+		else if(dealer==4){
+			pcturn(1);
+			pcturn(2);
+		}
+	})
 })
