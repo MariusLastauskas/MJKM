@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var cardDeck;
+	var cardDeck=[];
 	p1=[];
 	p2=[];
 	p3=[];
@@ -7,6 +7,8 @@ $(document).ready(function(){
 
 	var tablemove=0;
 	var round=0;
+	var bidturn=0;
+	var stop=false;
 
 	var p1money=500;
 	var p2money=500;
@@ -92,6 +94,7 @@ $(document).ready(function(){
 	playingRound(dealer);
 
 	function playingRound(dealer){
+		stop=false;
 		if(round==0){
 			if(dealer==1){
 				playerturn();
@@ -101,21 +104,53 @@ $(document).ready(function(){
 			}
 			else if(dealer==2){
 				pcturn(1);
-				pcturn(2);
-				pcturn(3);
-				playerturn();
+				if(stop==false)
+					{pcturn(2);}
+				if(stop==false)
+					{pcturn(3);}
+				if(stop==false)
+					{playerturn();}
 			}
 			else if(dealer==3){
 				pcturn(2);
-				pcturn(3);
-				playerturn();
+				if(stop==false)
+					{pcturn(3);}
+				if(stop==false)
+					{playerturn();}
 				// pcturn(1);
 			}
 			else{
 				pcturn(3);
-				playerturn();
+				if(stop==false)
+					{playerturn();}
 				// pcturn(1);
 				// pcturn(2);
+			}
+		}
+		else{
+			if(dealer==1){
+				pcturn(1);
+				if(stop==false)
+					{pcturn(2);}
+				if(stop==false)
+					{pcturn(3);}
+				if(stop==false)
+					{playerturn();}
+			}
+			else if(dealer==2){
+				pcturn(2);
+				if(stop==false)
+					{pcturn(3);}
+				if(stop==false)
+					{playerturn();}
+			}
+			else if(dealer==3){
+				pcturn(3);
+				if(stop==false)
+					{playerturn();}
+			}
+			else{
+				playerturn();
 			}
 		}
 	}
@@ -178,27 +213,27 @@ $(document).ready(function(){
 		if(cardDeck[drawnCard-1]!=0){
 			if(player==4)
 				$("#"+player+"player").html($("#"+player+"player").html()+" <img src='"+cardDeck[drawnCard-1]+"'>");
-			if(player==1){
-				p1.unshift(drawnCard-1);
-				}
-				else if(player==2){
-					p2.unshift(drawnCard-1);
-				}
-				else if(player==3){
-					p3.unshift(drawnCard-1);
-				}
-				else if(player==4){
-					p4.unshift(drawnCard-1);
-				}
+				if(player==1){
+					p1.unshift(drawnCard-1);
+					}
+					else if(player==2){
+						p2.unshift(drawnCard-1);
+					}
+					else if(player==3){
+						p3.unshift(drawnCard-1);
+					}
+					else if(player==4){
+						p4.unshift(drawnCard-1);
+					}
 			cardDeck[drawnCard-1]=0;}
-				else{dealHand(player);}
+			else{dealHand(player);}
 	}
-
 	function dealTable(){
+		console.log("ss")
 		var drawnCard;
 		drawnCard=Math.floor((Math.random()*cardDeck.length)+1);
-		if(cardDeck[drawnCard-1]!=0){
-			//$("#table").html($("#table").html()+" <img src='"+cardDeck[drawnCard-1]+"'>");
+		if(cardDeck[drawnCard-1]!=0 ){
+			$("#table").html($("#table").html()+" <img src='"+cardDeck[drawnCard-1]+"'>");
 			p1.unshift(drawnCard-1);
 			p2.unshift(drawnCard-1);
 			p3.unshift(drawnCard-1);
@@ -504,17 +539,19 @@ $(document).ready(function(){
 
 	function fold(player){
 		$('#move'+player).html('FOLD');
-		if(player==lastPlayer){
-			//table();
-		}
+				if(bidturn==4){
+					table();
+				}
+		bidturn++;
 	}
 
 	function check(player){
 		$("#move"+player).html('CHECK');
 		// console.log("ss");
-		if(player==lastPlayer){
-			//table();
-		}
+		bidturn++;
+		if(bidturn==4){
+					table();
+				}
 	}
 
 	function bet(player,playermoney,playerbid){
@@ -525,20 +562,26 @@ $(document).ready(function(){
 		$("#money"+player).html(playermoney+"$");
 		playerbid=reqbid;
 		$("#ontable"+player).html(playerbid+"$");
+		bidturn=1;
 	}
 
 	function call(player,playermoney,playerbid){
 		$('#move'+player).html('CALL');
-		playermoney-=reqbid;
+		playermoney-=reqbid-playerbid;
 		$("#money"+player).html(playermoney+"$");
 		playerbid=reqbid;
 		$('#ontable'+player).html(playerbid+"$");
+		bidturn++;
+				if(bidturn==4){
+					table();
+				}
 	}
 
 	function table(){
 		if(tablemove==0){
 			for(var i=0;i<3;i++){
-			dealTable();}
+			dealTable();
+			}
 			tablemove++;
 		}
 		else{
@@ -546,8 +589,10 @@ $(document).ready(function(){
 		}
 	}
 
-	function pcturn(player){
-		call(player);
+	function pcturn(player,money,bid){
+		if(reqbid==bid)
+			check(player);
+		else{call(player,money,bid);}
 	}
 
 	function playerturn(){
@@ -559,34 +604,29 @@ $(document).ready(function(){
 		fold(4);
 		$(".btn-warning").addClass("disabled");
 		if(dealer==1){
-			pcturn(1);
-			pcturn(2);
-			pcturn(3);
+			pcturn(1,p1money,p1bid);
+			if(stop==false)
+				{pcturn(2,p2money,p2bid);}
+			if(stop==false)
+				{pcturn(3,p3money,p3bid);}
 		}
 		else if(dealer==3){
-			pcturn(1);
+			pcturn(1,p1money,p1bid);
 		}
 		else if(dealer==4){
-			pcturn(1);
-			pcturn(2);
+			pcturn(1,p1money,p1bid);
+			if(stop==false)
+				{pcturn(2,p2money,p2bid);}
 		}
 	})
 
 	$("#btn-bet").click(function(){
 		bet(4,p4money,p4bid);
 		$(".btn-warning").addClass("disabled");
-		if(dealer==1){
-			pcturn(1);
-			pcturn(2);
-			pcturn(3);
-		}
-		else if(dealer==3){
-			pcturn(1);
-		}
-		else if(dealer==4){
-			pcturn(1);
-			pcturn(2);
-		}
+		round++;
+		stop=true;
+		playingRound(4);
+
 	})
 
 	$("#btn-checkcall").click(function(){
@@ -601,17 +641,19 @@ $(document).ready(function(){
 		}
 		$(".btn-warning").addClass("disabled");
 		if(dealer==1){
-			console.log("ss")
-			pcturn(1);
-			pcturn(2);
-			pcturn(3);
+			pcturn(1,p1money,p1bid);
+			if(stop==false)
+				{pcturn(2,p2money,p2bid);}
+			if(stop==false)
+				{pcturn(3,p3money,p3bid);}
 		}
 		else if(dealer==3){
-			pcturn(1);
+			pcturn(1,p1money,p1bid);
 		}
 		else if(dealer==4){
-			pcturn(1);
-			pcturn(2);
+			pcturn(1,p1money,p1bid);
+			if(stop==false)
+				{pcturn(2,p2money,p2bid);}
 		}
 	})
 })
