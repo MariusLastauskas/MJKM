@@ -205,7 +205,6 @@ $(document).ready(function(){
 
 		
 	}
-
 	function resetDeck(){
 		cardDeck=["as.png","2s.png","3s.png","4s.png","5s.png","6s.png","7s.png","8s.png","9s.png","10s.png","js.png","qs.png","ks.png","ac.png","2c.png","3c.png","4c.png","5c.png","6c.png","7c.png","8c.png","9c.png","10c.png","jc.png","qc.png","kc.png","ah.png","2h.png","3h.png","4h.png","5h.png","6h.png","7h.png","8h.png","9h.png","10h.png","jh.png","qh.png","kh.png","ad.png","2d.png","3d.png","4d.png","5d.png","6d.png","7d.png","8d.png","9d.png","10d.png","jd.png","qd.png","kd.png"];		
 	}
@@ -232,7 +231,6 @@ $(document).ready(function(){
 			else{dealHand(player);}
 	}
 	function dealTable(){
-		console.log("ss")
 		var drawnCard;
 		drawnCard=Math.floor((Math.random()*cardDeck.length)+1);
 		if(cardDeck[drawnCard-1]!=0 ){
@@ -543,19 +541,19 @@ $(document).ready(function(){
 		$('#move'+player).html('FOLD');
 		bidturn++;
 				if(bidturn==4){
+					bidturn=0;
 					table();
 				}
 		
 	}
 
 	function check(player){
-		//console.log(player)
+		console.log(player)
 		$("#move"+player).html('CHECK');
 		// console.log("ss");
 		bidturn++;
-		console.log(bidturn)
 		if(bidturn==4){
-			bidturn=0;
+				bidturn=0;
 					table();
 				}
 	}
@@ -564,10 +562,27 @@ $(document).ready(function(){
 		$('#move'+player).html('BET');
 		lastPlayer=player;
 		reqbid+=bigblind;
-		playermoney-=reqbid;
-		$("#money"+player).html(playermoney+"$");
-		playerbid=reqbid;
-		$("#ontable"+player).html(playerbid+"$");
+		if(player==1){
+			p1money-=reqbid-p1bid;
+			$("#money"+player).html(p1money+"$");
+			p1bid=reqbid;
+			$("#ontable"+player).html(p1bid+"$");}
+		else if(player==2){
+			p2money-=reqbid-p2bid;
+			$("#money"+player).html(p2money+"$");
+			p2bid=reqbid;
+			$("#ontable"+player).html(p2bid+"$");}
+		else if(player==3){
+			p3money-=reqbid-p3bid;
+			$("#money"+player).html(p3money+"$");
+			p3bid=reqbid;
+			$("#ontable"+player).html(p3bid+"$");}
+		else if(player==4){
+			p4money-=reqbid-p4bid;
+			$("#money"+player).html(p4money+"$");
+			p4bid=reqbid;
+			$("#ontable"+player).html(p4bid+"$");}
+		console.log(reqbid+"reqbid")
 		bidturn=1;
 	}
 
@@ -580,19 +595,23 @@ $(document).ready(function(){
 		if(player==1){
 		p1money-=reqbid-p1bid;
 		p1bid=reqbid;
-		$('#ontable'+player).html(p1bid+"$");}
+		$('#ontable'+player).html(p1bid+"$");
+		$("#money"+player).html(p1money+"$");}
 		else if(player==2){
 		p2money-=reqbid-p2bid;
 		p2bid=reqbid;
-		$('#ontable'+player).html(p2bid+"$");}
+		$('#ontable'+player).html(p2bid+"$");
+		$("#money"+player).html(p2money+"$");}
 		else if(player==3){
 		p3money-=reqbid-p3bid;
 		p3bid=reqbid;
-		$('#ontable'+player).html(p3bid+"$");}
+		$('#ontable'+player).html(p3bid+"$");
+		$("#money"+player).html(p3money+"$");}
 		else{
 		p4money-=reqbid-p4bid;
 		p4bid=reqbid;
-		$('#ontable'+player).html(p4bid+"$");}
+		$('#ontable'+player).html(p4bid+"$");
+		$("#money"+player).html(p4money+"$");}
 		bidturn++;
 				if(bidturn==4){
 					bidturn=0;
@@ -601,21 +620,53 @@ $(document).ready(function(){
 	}
 
 	function table(){
+		pot+=p1bid+p2bid+p3bid+p4bid;
+		console.log("1"+p1bid+"2"+p2bid+"3"+p3bid+"4"+p4bid)
+		p1bid=0;
+		p2bid=0;
+		p3bid=0;
+		p4bid=0;
+		$("#ontable1").html("0$");
+		$("#ontable2").html("0$");
+		$("#ontable3").html("0$");
+		$("#ontable4").html("0$");
+		reqbid=0;
+		$("#pot").html(pot+"$");
+		console.log(pot+"$")
 		if(tablemove==0){
 			for(var i=0;i<3;i++){
 			dealTable();
 			}
 			tablemove++;
 		}
+		else if(tablemove==3){
+			revealCards();
+		}
 		else{
 			dealTable();
+			tablemove++;
 		}
+		console.log(tablemove+"aaaaaaaa")
 		round++;
 		playingRound(dealer);
 	}
 
+	function revealCards(){
+		resetDeck();
+		// for(var i=0;i<cardDeck.length;i++){
+		// }
+		$("#1player").html("<img src='"+cardDeck[p1[6]]+"'><img src='"+cardDeck[p1[7]]+"'>");
+		$("#2player").html("<img src='"+cardDeck[p2[6]]+"'><img src='"+cardDeck[p2[7]]+"'>");
+		$("#3player").html("<img src='"+cardDeck[p3[6]]+"'><img src='"+cardDeck[p3[7]]+"'>");
+		$("#4player").html("<img src='"+cardDeck[p4[6]]+"'><img src='"+cardDeck[p4[7]]+"'>");
+		findHighestPair(1,p1);
+		findHighestPair(2,p2);
+		findHighestPair(3,p3);
+		findHighestPair(4,p4);
+		// $("#table").html($("#table").html()+" <img src='"+cardDeck[drawnCard-1]+"'>");
+	}
+
 	function pcturn(player,money,bid){
-		//console.log(player+"ss"+reqbid+" "+bid)
 		if(reqbid==bid)
 			check(player);
 		else{call(player,money,bid);}
