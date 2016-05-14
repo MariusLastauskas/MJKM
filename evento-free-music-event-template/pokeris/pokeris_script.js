@@ -176,10 +176,10 @@ $(document).ready(function(){
 		// for(var i=0;i<5;i++){
 		// 	dealTable();}
 
-		p1.unshift(0);
-		p2.unshift(0);
-		p3.unshift(0);
-		p4.unshift(0);
+		// p1.unshift(0);
+		// p2.unshift(0);
+		// p3.unshift(0);
+		// p4.unshift(0);
 		
 		var p1hand=[0];
 		var p2hand=[0];
@@ -203,8 +203,8 @@ $(document).ready(function(){
 			console.log(p4hand[i])
 		}
 
-		
 	}
+
 	function resetDeck(){
 		cardDeck=["as.png","2s.png","3s.png","4s.png","5s.png","6s.png","7s.png","8s.png","9s.png","10s.png","js.png","qs.png","ks.png","ac.png","2c.png","3c.png","4c.png","5c.png","6c.png","7c.png","8c.png","9c.png","10c.png","jc.png","qc.png","kc.png","ah.png","2h.png","3h.png","4h.png","5h.png","6h.png","7h.png","8h.png","9h.png","10h.png","jh.png","qh.png","kh.png","ad.png","2d.png","3d.png","4d.png","5d.png","6d.png","7d.png","8d.png","9d.png","10d.png","jd.png","qd.png","kd.png"];		
 	}
@@ -301,7 +301,7 @@ $(document).ready(function(){
 
 	function findHighestPair(player,hand){
 		var numberOfCards=[0,0,0,0,0,0,0,0,0,0,0,0,0];
-		for(var i=1;i<=player.length;i++){
+		for(var i=0;i<=player.length;i++){
 			if(player[i]==0||player[i]==13||player[i]==26||player[i]==39){
 				numberOfCards[12]++;
 			}
@@ -548,7 +548,7 @@ $(document).ready(function(){
 	}
 
 	function check(player){
-		console.log(player)
+		//console.log(player)
 		$("#move"+player).html('CHECK');
 		// console.log("ss");
 		bidturn++;
@@ -582,7 +582,7 @@ $(document).ready(function(){
 			$("#money"+player).html(p4money+"$");
 			p4bid=reqbid;
 			$("#ontable"+player).html(p4bid+"$");}
-		console.log(reqbid+"reqbid")
+		//console.log(reqbid+"reqbid")
 		bidturn=1;
 	}
 
@@ -621,7 +621,7 @@ $(document).ready(function(){
 
 	function table(){
 		pot+=p1bid+p2bid+p3bid+p4bid;
-		console.log("1"+p1bid+"2"+p2bid+"3"+p3bid+"4"+p4bid)
+		//console.log("1"+p1bid+"2"+p2bid+"3"+p3bid+"4"+p4bid)
 		p1bid=0;
 		p2bid=0;
 		p3bid=0;
@@ -632,7 +632,7 @@ $(document).ready(function(){
 		$("#ontable4").html("0$");
 		reqbid=0;
 		$("#pot").html(pot+"$");
-		console.log(pot+"$")
+		//console.log(pot+"$")
 		if(tablemove==0){
 			for(var i=0;i<3;i++){
 			dealTable();
@@ -646,25 +646,443 @@ $(document).ready(function(){
 			dealTable();
 			tablemove++;
 		}
-		console.log(tablemove+"aaaaaaaa")
+		//console.log(tablemove+"aaaaaaaa")
 		round++;
 		playingRound(dealer);
 	}
 
 	function revealCards(){
+		var p1h=[];
+		var p2h=[];
+		var p3h=[];
+		var p4h=[];
+
+		findHighestPair(p1,p1h);
+		for(var i=0;i<p1.length;i++){
+			console.log(p1h[i])
+		}
+		findHighestPair(p2,p2h);
+		for(var i=0;i<p2h.length;i++){
+			console.log(p2h[i])
+		}
+		findHighestPair(p3,p3h);
+		for(var i=0;i<p3h.length;i++){
+			console.log(p3h[i])
+		}
+		findHighestPair(p4,p4h);
+		for(var i=0;i<p4h.length;i++){
+			console.log(p4h[i])
+		}
+
 		resetDeck();
 		// for(var i=0;i<cardDeck.length;i++){
 		// }
-		$("#1player").html("<img src='"+cardDeck[p1[6]]+"'><img src='"+cardDeck[p1[7]]+"'>");
-		$("#2player").html("<img src='"+cardDeck[p2[6]]+"'><img src='"+cardDeck[p2[7]]+"'>");
-		$("#3player").html("<img src='"+cardDeck[p3[6]]+"'><img src='"+cardDeck[p3[7]]+"'>");
-		$("#4player").html("<img src='"+cardDeck[p4[6]]+"'><img src='"+cardDeck[p4[7]]+"'>");
-		findHighestPair(1,p1);
-		findHighestPair(2,p2);
-		findHighestPair(3,p3);
-		findHighestPair(4,p4);
+		$("#1player").html("<img src='"+cardDeck[p1[6]]+"'><img src='"+cardDeck[p1[5]]+"'>");
+		$("#2player").html("<img src='"+cardDeck[p2[6]]+"'><img src='"+cardDeck[p2[5]]+"'>");
+		$("#3player").html("<img src='"+cardDeck[p3[6]]+"'><img src='"+cardDeck[p3[5]]+"'>");
+
 		// $("#table").html($("#table").html()+" <img src='"+cardDeck[drawnCard-1]+"'>");
+
+		compareCards(p1h,p2h,p3h,p4h);
 	}
+
+	function compareCards(p1,p2,p3,p4){
+		// var best;
+		var bcards1=[];
+		var bcards2=[];
+		var bcards3=[];
+		var bcards4=[];
+		var bcards5=[];
+		var bcards0=[];
+		var max0=0;
+		var max1=0;
+		var max2=0;
+		var max3=0;
+		var max4=0;
+		var max5=0;
+		var vinner=[true,true,true,true];
+		var vinnerNumber=4;
+
+		if(p1[0]==1||p1[0]==6){
+			bcards0.push(p1[0]);
+			bcards1.push(p1[1]);
+			bcards2.push(p1[2]);
+			bcards3.push(p1[3]);
+			bcards4.push(p1[4]);
+			bcards5.push(p1[5]);
+			max0=Math.max(max0,p1[0]);
+			// max1=Math.max(max1,p1[1]);
+			// max2=Math.max(max2,p1[2]);
+			// max3=Math.max(max3,p1[3]);
+			// max4=Math.max(max4,p1[4]);
+			// max5=Math.max(max5,p1[5]);
+		}
+		else if(p1[0]==2){
+			bcards0.push(p1[0]);
+			bcards1.push(p1[1]);
+			bcards2.push(p1[2]);
+			bcards3.push(p1[3]);
+			bcards4.push(p1[4]);
+			bcards5.push(0);
+			max0=Math.max(max0,p1[0]);
+			// max1=Math.max(max1,p1[1]);
+			// max2=Math.max(max2,p1[2]);
+			// max3=Math.max(max3,p1[3]);
+			// max4=Math.max(max4,p1[4]);
+		}
+		else if(p1[0]==3||p1[0]==4){
+			bcards0.push(p1[0]);
+			bcards1.push(p1[1]);
+			bcards2.push(p1[2]);
+			bcards3.push(p1[3]);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p1[0]);
+			// max1=Math.max(max1,p1[1]);
+			// max2=Math.max(max2,p1[2]);
+			// max3=Math.max(max3,p1[3]);
+		}
+		else if(p1[0]==7||p1[0]==8){
+			bcards0.push(p1[0]);
+			bcards1.push(p1[1]);
+			bcards2.push(p1[2]);
+			bcards3.push(0);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p1[0]);
+			// max1=Math.max(max1,p1[1]);
+			// max2=Math.max(max2,p1[2]);
+		}
+		else if(p1[0]==5||p1[0]==9){
+			bcards0.push(p1[0]);
+			bcards1.push(p1[1]);
+			bcards2.push(0);
+			bcards3.push(0);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p1[0]);
+			// max1=Math.max(max1,p1[1]);
+		}
+		//---------------------------
+		if(p2[0]==1||p2[0]==6){
+			bcards0.push(p2[0]);
+			bcards1.push(p2[1]);
+			bcards2.push(p2[2]);
+			bcards3.push(p2[3]);
+			bcards4.push(p2[4]);
+			bcards5.push(p2[5]);
+			max0=Math.max(max0,p2[0]);
+			// max1=Math.max(max1,p2[1]);
+			// max2=Math.max(max2,p2[2]);
+			// max3=Math.max(max3,p2[3]);
+			// max4=Math.max(max4,p2[4]);
+			// max5=Math.max(max5,p2[5]);
+		}
+		else if(p2[0]==2){
+			bcards0.push(p2[0]);
+			bcards1.push(p2[1]);
+			bcards2.push(p2[2]);
+			bcards3.push(p2[3]);
+			bcards4.push(p2[4]);
+			bcards5.push(0);
+			max0=Math.max(max0,p2[0]);
+			// max1=Math.max(max1,p2[1]);
+			// max2=Math.max(max2,p2[2]);
+			// max3=Math.max(max3,p2[3]);
+			// max4=Math.max(max4,p2[4]);
+		}
+		else if(p2[0]==3||p2[0]==4){
+			bcards0.push(p2[0]);
+			bcards1.push(p2[1]);
+			bcards2.push(p2[2]);
+			bcards3.push(p2[3]);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p2[0]);
+			// max1=Math.max(max1,p2[1]);
+			// max2=Math.max(max2,p2[2]);
+			// max3=Math.max(max3,p2[3]);
+		}
+		else if(p2[0]==7||p2[0]==8){
+			bcards0.push(p2[0]);
+			bcards1.push(p2[1]);
+			bcards2.push(p2[2]);
+			bcards3.push(0);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p2[0]);
+			// max1=Math.max(max1,p2[1]);
+			// max2=Math.max(max2,p2[2]);
+		}
+		else if(p2[0]==5||p2[0]==9){
+			bcards0.push(p2[0]);
+			bcards1.push(p2[1]);
+			bcards2.push(0);
+			bcards3.push(0);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p2[0]);
+			// max1=Math.max(max1,p2[1]);
+		}
+		//---------------------------
+		if(p3[0]==1||p3[0]==6){
+			bcards0.push(p3[0]);
+			bcards1.push(p3[1]);
+			bcards2.push(p3[2]);
+			bcards3.push(p3[3]);
+			bcards4.push(p3[4]);
+			bcards5.push(p3[5]);
+			max0=Math.max(max0,p3[0]);
+			// max1=Math.max(max1,p3[1]);
+			// max2=Math.max(max2,p3[2]);
+			// max3=Math.max(max3,p3[3]);
+			// max4=Math.max(max4,p3[4]);
+			// max5=Math.max(max5,p3[5]);
+		}
+		else if(p3[0]==2){
+			bcards0.push(p3[0]);
+			bcards1.push(p3[1]);
+			bcards2.push(p3[2]);
+			bcards3.push(p3[3]);
+			bcards4.push(p3[4]);
+			bcards5.push(0);
+			max0=Math.max(max0,p3[0]);
+			// max1=Math.max(max1,p3[1]);
+			// max2=Math.max(max2,p3[2]);
+			// max3=Math.max(max3,p3[3]);
+			// max4=Math.max(max4,p3[4]);
+		}
+		else if(p3[0]==3||p3[0]==4){
+			bcards0.push(p3[0]);
+			bcards1.push(p3[1]);
+			bcards2.push(p3[2]);
+			bcards3.push(p3[3]);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p3[0]);
+			// max1=Math.max(max1,p3[1]);
+			// max2=Math.max(max2,p3[2]);
+			// max3=Math.max(max3,p3[3]);
+		}
+		else if(p3[0]==7||p3[0]==8){
+			bcards0.push(p3[0]);
+			bcards1.push(p3[1]);
+			bcards2.push(p3[2]);
+			bcards3.push(0);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p3[0]);
+			// max1=Math.max(max1,p3[1]);
+			// max2=Math.max(max2,p3[2]);
+		}
+		else if(p3[0]==5||p3[0]==9){
+			bcards0.push(p3[0]);
+			bcards1.push(p3[1]);
+			bcards2.push(0);
+			bcards3.push(0);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p3[0]);
+			// max1=Math.max(max1,p3[1]);
+		}
+		//-------------------------
+		if(p4[0]==1||p4[0]==6){
+			bcards0.push(p4[0]);
+			bcards1.push(p4[1]);
+			bcards2.push(p4[2]);
+			bcards3.push(p4[3]);
+			bcards4.push(p4[4]);
+			bcards5.push(p4[5]);
+			max0=Math.max(max0,p4[0]);
+			// max1=Math.max(max1,p4[1]);
+			// max2=Math.max(max2,p4[2]);
+			// max3=Math.max(max3,p4[3]);
+			// max4=Math.max(max4,p4[4]);
+			// max5=Math.max(max5,p4[5]);
+		}
+		else if(p4[0]==2){
+			bcards0.push(p4[0]);
+			bcards1.push(p4[1]);
+			bcards2.push(p4[2]);
+			bcards3.push(p4[3]);
+			bcards4.push(p4[4]);
+			bcards5.push(0);
+			max0=Math.max(max0,p4[0]);
+			// max1=Math.max(max1,p4[1]);
+			// max2=Math.max(max2,p4[2]);
+			// max3=Math.max(max3,p4[3]);
+			// max4=Math.max(max4,p4[4]);
+		}
+		else if(p4[0]==3||p4[0]==4){
+			bcards0.push(p4[0]);
+			bcards1.push(p4[1]);
+			bcards2.push(p4[2]);
+			bcards3.push(p4[3]);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p4[0]);
+			// max1=Math.max(max1,p4[1]);
+			// max2=Math.max(max2,p4[2]);
+			// max3=Math.max(max3,p4[3]);
+		}
+		else if(p4[0]==7||p4[0]==8){
+			bcards0.push(p4[0]);
+			bcards1.push(p4[1]);
+			bcards2.push(p4[2]);
+			bcards3.push(0);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p4[0]);
+			// max1=Math.max(max1,p4[1]);
+			// max2=Math.max(max2,p4[2]);
+		}
+		else if(p4[0]==5||p4[0]==9){
+			bcards0.push(p4[0]);
+			bcards1.push(p4[1]);
+			bcards2.push(0);
+			bcards3.push(0);
+			bcards4.push(0);
+			bcards5.push(0);
+			max0=Math.max(max0,p4[0]);
+			// max1=Math.max(max1,p4[1]);
+		}
+			console.log(bcards0+"max"+max0)
+			console.log(bcards1+"max"+max1)
+			console.log(bcards2+"max"+max2)
+			console.log(bcards3+"max"+max3)
+			console.log(bcards4+"max"+max4)
+			console.log(bcards5+"max"+max5)
+		for(var i=0;i<4;i++){
+			if(bcards0[i]<max0&&vinner[i]==true){
+				vinner[i]=false;
+				vinnerNumber--;
+			}
+			if(vinner[i]==true){
+				max1=Math.max(max1,bcards1[i]);
+			}
+		}
+		if(vinnerNumber==1){
+			for(var i=0;i<4;i++){
+				if(vinner[i]==true){
+					alert('laimėjo '+(i+1)+' žaidėjas');
+				}
+			}
+		}
+		else{
+			for(var i=0;i<4;i++){
+				if(bcards1[i]<max1&&vinner[i]==true){
+					vinner[i]=false;
+					vinnerNumber--;
+				}
+				if(vinner[i]==true){
+					max2=Math.max(max2,bcards2[i]);
+				}
+			}
+			if(vinnerNumber==1){
+				for(var i=0;i<4;i++){
+					if(vinner[i]==true){
+						alert('laimėjo '+(i+1)+' žaidėjas');
+					}
+				}
+			}
+			else{
+				for(var i=0;i<4;i++){
+					if(bcards2[i]<max2&&vinner[i]==true){
+						vinner[i]=false;
+						vinnerNumber--;
+					}
+					if(vinner[i]==true){
+						max3=Math.max(max3,bcards3[i]);
+					}
+				}
+				if(vinnerNumber==1){
+					for(var i=0;i<4;i++){
+						if(vinner[i]==true){
+							alert('laimėjo '+(i+1)+' žaidėjas');
+						}
+					}
+				}
+				else{
+					for(var i=0;i<4;i++){
+						if(bcards3[i]<max3&&vinner[i]==true){
+							vinner[i]=false;
+							vinnerNumber--;
+						}
+						if(vinner[i]==true){
+							max4=Math.max(max4,bcards4[i]);
+						}
+					}
+					if(vinnerNumber==1){
+						for(var i=0;i<4;i++){
+							if(vinner[i]==true){
+								alert('laimėjo '+(i+1)+' žaidėjas');
+							}
+						}
+					}
+						else{
+						for(var i=0;i<4;i++){
+							if(bcards4[i]<max4&&vinner[i]==true){
+								vinner[i]=false;
+								vinnerNumber--;
+							}
+							if(vinner[i]==true){
+								max5=Math.max(max5,bcards5[i]);
+							}
+						}
+						if(vinnerNumber==1){
+							for(var i=0;i<4;i++){
+								if(vinner[i]==true){
+									alert('laimėjo '+(i+1)+' žaidėjas');
+								}
+							}
+						}
+						else{
+							for(var i=0;i<4;i++){
+								if(bcards5[i]<max5&&vinner[i]==true){
+									vinner[i]=false;
+									vinnerNumber--;
+								}
+							}
+							if(vinnerNumber==1){
+								for(var i=0;i<4;i++){
+									if(vinner[i]==true){
+										alert('laimėjo '+(i+1)+' žaidėjas');
+									}
+								}
+							}
+							else{alert(vinnerNumber)}
+						}
+					}
+				}
+			}
+		}
+
+		for(var i=0;i<bcards0.length;i++){
+			console.log(bcards0[i])
+		}
+		// best=Math.max(p1[0],p2[0],p3[0],p4[0]);
+		// if(p1[0]==best){
+		// 	bcards.unshift(1);
+		// }
+		// if(p2[0]==best){
+		// 	bcards.unshift(2);
+		// }
+		// if(p3[0]==best){
+		// 	bcards.unshift(3);
+		// }
+		// if(p4[0]==best){
+		// 	bcards.unshift(4);
+		// }
+		// for(var i=0;i<bcards.length;i++){
+		// 	console.log(bcards[i]);
+		// }9
+		// bcards.sort();
+		// for(var i=0;i<bcards.length;i++){
+		// 	console.log(bcards[i]);
+		// }
+
+		// var stop=false;
+		}
 
 	function pcturn(player,money,bid){
 		if(reqbid==bid)
