@@ -1,5 +1,12 @@
-$(document).ready(function(){
+$(document).ready(function s(){
 	var cardDeck=[];
+	var unfoldedplayer=[true,true,true,true];
+
+	var p1money=500;
+	var p2money=500;
+	var p3money=500;
+	var p4money=500;
+
 	p1=[];
 	p2=[];
 	p3=[];
@@ -9,11 +16,8 @@ $(document).ready(function(){
 	var round=0;
 	var bidturn=0;
 	var stop=false;
+	var share=[];
 
-	var p1money=500;
-	var p2money=500;
-	var p3money=500;
-	var p4money=500;
 
 	var p1bid=0;
 	var p2bid=0;
@@ -27,6 +31,12 @@ $(document).ready(function(){
 	var dealer=1;
 	var reqbid=bigblind;
 	var lastPlayer;
+
+	$("#1player").html("<img src='backcard.png'><img src='backcard.png'>");
+	$("#2player").html("<img src='backcard.png'><img src='backcard.png'>");
+	$("#3player").html("<img src='backcard.png'><img src='backcard.png'>");
+	$("#4player").html("");
+
 
 	blindBidding(dealer);
 
@@ -91,11 +101,13 @@ $(document).ready(function(){
 			$('#pos3').html(" ");
 			lastPlayer=2;
 		}
+		//alert("last"+lastPlayer)
 	}
 	dealer=realdeal;
 	playingRound(dealer);
 
 	function playingRound(dealer){
+		 // alert("d"+round)
 		stop=false;
 		if(round==0){
 			if(dealer==1){
@@ -105,26 +117,34 @@ $(document).ready(function(){
 				// pcturn(3);
 			}
 			else if(dealer==2){
+				//stop=true;
 				pcturn(1,p1money,p1bid);
 				if(stop==false)
 					{pcturn(2,p2money,p2bid);}
 				if(stop==false)
 					{pcturn(3,p3money,p3bid);}
 				if(stop==false)
-					{playerturn();}
+					{playerturn();
+						// alert("Ss")
+						bidturn--}
 			}
 			else if(dealer==3){
 				pcturn(2,p2money,p2bid);
 				if(stop==false)
 					{pcturn(3,p3money,p3bid);}
 				if(stop==false)
-					{playerturn();}
+					{playerturn();
+						bidturn-=2}
 				// pcturn(1);
 			}
-			else{
+			else{//alert("dd"+dealer)
+				// stop=true;
 				pcturn(3,p3money,p3bid);
+				//stop=true;
 				if(stop==false)
-					{playerturn();}
+					{playerturn();
+						bidturn--;
+						stop=true;}
 				// pcturn(1);
 				// pcturn(2);
 			}
@@ -138,12 +158,14 @@ $(document).ready(function(){
 					{playerturn();}
 			}
 			else if(dealer==2){
+				// alert("sss")
 				pcturn(3,p3money,p3bid);
 				if(stop==false)
 					{playerturn();}
 			}
 			else if(dealer==3){
-					{playerturn();}
+					{
+						playerturn();}
 			}
 			else{
 				pcturn(1,p1money,p1bid);
@@ -155,7 +177,6 @@ $(document).ready(function(){
 					{playerturn();}
 			}
 		}
-		console.log(p1money+" "+p2money+" "+p3money+" "+p4money)
 	}
 
 	shufleCards();
@@ -540,6 +561,7 @@ $(document).ready(function(){
 	function fold(player){
 		$('#move'+player).html('FOLD');
 		bidturn++;
+		unfoldedplayer[player-1]=true;
 				if(bidturn==4){
 					bidturn=0;
 					table();
@@ -548,12 +570,12 @@ $(document).ready(function(){
 	}
 
 	function check(player){
-		//console.log(player)
 		$("#move"+player).html('CHECK');
-		// console.log("ss");
 		bidturn++;
+		// alert("check"+tablemove+" "+player)
 		if(bidturn==4){
 				bidturn=0;
+				// alert("btn-fold")
 					table();
 				}
 	}
@@ -582,16 +604,11 @@ $(document).ready(function(){
 			$("#money"+player).html(p4money+"$");
 			p4bid=reqbid;
 			$("#ontable"+player).html(p4bid+"$");}
-		//console.log(reqbid+"reqbid")
 		bidturn=1;
 	}
 
 	function call(player,playermoney,playerbid){
-		//console.log(player);
 		$('#move'+player).html('CALL');
-		// playermoney-=reqbid-playerbid;
-		// $("#money"+player).html(playermoney+"$");
-		//console.log(player+"buvo"+playerbid)
 		if(player==1){
 		p1money-=reqbid-p1bid;
 		p1bid=reqbid;
@@ -613,6 +630,7 @@ $(document).ready(function(){
 		$('#ontable'+player).html(p4bid+"$");
 		$("#money"+player).html(p4money+"$");}
 		bidturn++;
+		// alert("tablemove"+tablemove+" "+player)
 				if(bidturn==4){
 					bidturn=0;
 					table();
@@ -621,7 +639,6 @@ $(document).ready(function(){
 
 	function table(){
 		pot+=p1bid+p2bid+p3bid+p4bid;
-		//console.log("1"+p1bid+"2"+p2bid+"3"+p3bid+"4"+p4bid)
 		p1bid=0;
 		p2bid=0;
 		p3bid=0;
@@ -631,9 +648,10 @@ $(document).ready(function(){
 		$("#ontable3").html("0$");
 		$("#ontable4").html("0$");
 		reqbid=0;
+		//alert("tabke"+tablemove)
 		$("#pot").html(pot+"$");
-		//console.log(pot+"$")
 		if(tablemove==0){
+			$("#table").html("");
 			for(var i=0;i<3;i++){
 			dealTable();
 			}
@@ -646,7 +664,6 @@ $(document).ready(function(){
 			dealTable();
 			tablemove++;
 		}
-		//console.log(tablemove+"aaaaaaaa")
 		round++;
 		playingRound(dealer);
 	}
@@ -683,7 +700,107 @@ $(document).ready(function(){
 
 		// $("#table").html($("#table").html()+" <img src='"+cardDeck[drawnCard-1]+"'>");
 
-		compareCards(p1h,p2h,p3h,p4h);
+		var vinner=compareCards(p1h,p2h,p3h,p4h);
+		if(vinner!=0){
+			alert(vinner+'!');
+			if(vinner==1){
+				p1money+=pot;
+				pot=0;
+				$("#money1").html(p1money+"$");
+				$("#pot").html("potas");
+			}
+			else if(vinner==2){
+				p2money+=pot;
+				pot=0;
+				$("#money2").html(p2money+"$");
+				$("#pot").html("potas");
+			}
+			else if(vinner==3){
+				p3money+=pot;
+				pot=0;
+				$("#money3").html(p3money+"$");
+				$("#pot").html("potas");
+			}
+			else if(vinner==4){
+				p4money+=pot;
+				pot=0;
+				$("#money4").html(p4money+"$");
+				$("#pot").html("potas");
+			}
+		}
+		else{
+			sharePot();
+			$("#pot").html("potas");
+		}
+		// var cardDeck=[];
+
+	// var p1money=500;
+	// var p2money=500;
+	// var p3money=500;
+	// var p4money=500;
+
+	p1=[];
+	p2=[];
+	p3=[];
+	p4=[];
+
+	unfoldedplayer=[true,true,true,true];
+
+	tablemove=0;
+	round=0;
+	bidturn=0;
+	stop=false;
+	share=[];
+
+
+	p1bid=0;
+	p2bid=0;
+	p3bid=0;
+	p4bid=0;
+
+	pot=0;
+	smallblind=10;
+	bigblind=20;
+	realdeal=1;
+	dealer=dealer+1;
+	if(dealer==5){
+		dealer=1;
+		bidturn--;
+	}
+	reqbid=bigblind;
+	// var lastPlayer;
+
+	$("#1player").html("<img src='backcard.png'><img src='backcard.png'>");
+	$("#2player").html("<img src='backcard.png'><img src='backcard.png'>");
+	$("#3player").html("<img src='backcard.png'><img src='backcard.png'>");
+	$("#4player").html("");
+	$("#table").html("");
+
+		 blindBidding(dealer);
+		shufleCards();
+		playingRound(dealer);
+
+	}
+
+	function sharePot(){
+		for(var i=0;i<share.length;i++){
+			if(share[i]==1){
+				p1money+=pot/share.length;
+				$("#money1").html(p1money+"$");
+			}
+			if(share[i]==2){
+				p2money+=pot/share.length;
+				$("#money2").html(p2money+"$");
+			}
+			if(share[i]==3){
+				p3money+=pot/share.length;
+				$("#money3").html(p3money+"$");
+			}
+			if(share[i]==4){
+				p4money+=pot/share.length;
+				$("#money4").html(p4money+"$");
+			}
+		}
 	}
 
 	function compareCards(p1,p2,p3,p4){
@@ -946,12 +1063,12 @@ $(document).ready(function(){
 			max0=Math.max(max0,p4[0]);
 			// max1=Math.max(max1,p4[1]);
 		}
-			console.log(bcards0+"max"+max0)
-			console.log(bcards1+"max"+max1)
-			console.log(bcards2+"max"+max2)
-			console.log(bcards3+"max"+max3)
-			console.log(bcards4+"max"+max4)
-			console.log(bcards5+"max"+max5)
+			// console.log(bcards0+"max"+max0)
+			// console.log(bcards1+"max"+max1)
+			// console.log(bcards2+"max"+max2)
+			// console.log(bcards3+"max"+max3)
+			// console.log(bcards4+"max"+max4)
+			// console.log(bcards5+"max"+max5)
 		for(var i=0;i<4;i++){
 			if(bcards0[i]<max0&&vinner[i]==true){
 				vinner[i]=false;
@@ -964,7 +1081,7 @@ $(document).ready(function(){
 		if(vinnerNumber==1){
 			for(var i=0;i<4;i++){
 				if(vinner[i]==true){
-					alert('laimėjo '+(i+1)+' žaidėjas');
+					return i+1;
 				}
 			}
 		}
@@ -981,7 +1098,7 @@ $(document).ready(function(){
 			if(vinnerNumber==1){
 				for(var i=0;i<4;i++){
 					if(vinner[i]==true){
-						alert('laimėjo '+(i+1)+' žaidėjas');
+						return i+1;
 					}
 				}
 			}
@@ -998,7 +1115,7 @@ $(document).ready(function(){
 				if(vinnerNumber==1){
 					for(var i=0;i<4;i++){
 						if(vinner[i]==true){
-							alert('laimėjo '+(i+1)+' žaidėjas');
+							return i+1;
 						}
 					}
 				}
@@ -1015,7 +1132,7 @@ $(document).ready(function(){
 					if(vinnerNumber==1){
 						for(var i=0;i<4;i++){
 							if(vinner[i]==true){
-								alert('laimėjo '+(i+1)+' žaidėjas');
+								return i+1;
 							}
 						}
 					}
@@ -1032,7 +1149,7 @@ $(document).ready(function(){
 						if(vinnerNumber==1){
 							for(var i=0;i<4;i++){
 								if(vinner[i]==true){
-									alert('laimėjo '+(i+1)+' žaidėjas');
+									return i+1;
 								}
 							}
 						}
@@ -1046,20 +1163,28 @@ $(document).ready(function(){
 							if(vinnerNumber==1){
 								for(var i=0;i<4;i++){
 									if(vinner[i]==true){
-										alert('laimėjo '+(i+1)+' žaidėjas');
+										return i+1;
 									}
 								}
 							}
-							else{alert(vinnerNumber)}
+							else{alert("dalinasi");
+								for(var i=0;i<4;i++){
+									if(vinner[i]==true){
+										alert((i+1));
+										share.push(i+1);
+										return 0;
+									}
+								}
+							}
 						}
 					}
 				}
 			}
 		}
 
-		for(var i=0;i<bcards0.length;i++){
-			console.log(bcards0[i])
-		}
+		// for(var i=0;i<bcards0.length;i++){
+		// 	console.log(bcards0[i])
+		// }
 		// best=Math.max(p1[0],p2[0],p3[0],p4[0]);
 		// if(p1[0]==best){
 		// 	bcards.unshift(1);
@@ -1091,13 +1216,16 @@ $(document).ready(function(){
 	}
 
 	function playerturn(){
-		$(".btn-warning").removeClass("disabled");
+		// console.log("remove")
+		// $(".btn-warning").removeClass("disabled");
+		//alert("jau")
+		// stop=true;
 
 	}
 
 	$("#btn-fold").click(function(){
 		fold(4);
-		$(".btn-warning").addClass("disabled");
+		// $(".btn-warning").addClass("disabled");
 		if(round==0){
 			if(dealer==1){
 				pcturn(1,p1money,p1bid);
@@ -1136,7 +1264,7 @@ $(document).ready(function(){
 
 	$("#btn-bet").click(function(){
 		bet(4,p4money,p4bid);
-		$(".btn-warning").addClass("disabled");
+		// $(".btn-warning").addClass("disabled");
 		round++;
 		stop=true;
 		playingRound(4);
@@ -1144,15 +1272,14 @@ $(document).ready(function(){
 	})
 
 	$("#btn-checkcall").click(function(){
-		// console.log(reqbid);
 		if(reqbid>p4bid){
 			call(4,p4money,p4bid);
-			// console.log("ss")
 		}
+		// stop=true;
 		else{
 			check(4);
 		}
-		$(".btn-warning").addClass("disabled");
+		// $(".btn-warning").addClass("disabled");
 		if(round==0){
 			if(dealer==1){
 				pcturn(1,p1money,p1bid);
