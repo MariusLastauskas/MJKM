@@ -561,7 +561,7 @@ $(document).ready(function s(){
 	function fold(player){
 		$('#move'+player).html('FOLD');
 		bidturn++;
-		unfoldedplayer[player-1]=true;
+		unfoldedplayer[player-1]=false;
 				if(bidturn==4){
 					bidturn=0;
 					table();
@@ -570,71 +570,79 @@ $(document).ready(function s(){
 	}
 
 	function check(player){
-		$("#move"+player).html('CHECK');
-		bidturn++;
-		// alert("check"+tablemove+" "+player)
-		if(bidturn==4){
-				bidturn=0;
-				// alert("btn-fold")
-					table();
-				}
+		if(unfoldedplayer[player-1]==true){
+			$("#move"+player).html('CHECK');
+			bidturn++;
+			// alert("check"+tablemove+" "+player)
+			if(bidturn==4){
+					bidturn=0;
+					// alert("btn-fold")
+						table();
+					}}
+					else{fold(player)}
 	}
 
 	function bet(player,playermoney,playerbid){
-		$('#move'+player).html('BET');
-		lastPlayer=player;
-		reqbid+=bigblind;
-		if(player==1){
-			p1money-=reqbid-p1bid;
-			$("#money"+player).html(p1money+"$");
-			p1bid=reqbid;
-			$("#ontable"+player).html(p1bid+"$");}
-		else if(player==2){
-			p2money-=reqbid-p2bid;
-			$("#money"+player).html(p2money+"$");
-			p2bid=reqbid;
-			$("#ontable"+player).html(p2bid+"$");}
-		else if(player==3){
-			p3money-=reqbid-p3bid;
-			$("#money"+player).html(p3money+"$");
-			p3bid=reqbid;
-			$("#ontable"+player).html(p3bid+"$");}
-		else if(player==4){
-			p4money-=reqbid-p4bid;
-			$("#money"+player).html(p4money+"$");
-			p4bid=reqbid;
-			$("#ontable"+player).html(p4bid+"$");}
-		bidturn=1;
+		if(unfoldedplayer[player-1]==true){
+			$('#move'+player).html('BET');
+			lastPlayer=player;
+			reqbid+=bigblind;
+			if(player==1){
+				p1money-=reqbid-p1bid;
+				$("#money"+player).html(p1money+"$");
+				p1bid=reqbid;
+				$("#ontable"+player).html(p1bid+"$");}
+			else if(player==2){
+				p2money-=reqbid-p2bid;
+				$("#money"+player).html(p2money+"$");
+				p2bid=reqbid;
+				$("#ontable"+player).html(p2bid+"$");}
+			else if(player==3){
+				p3money-=reqbid-p3bid;
+				$("#money"+player).html(p3money+"$");
+				p3bid=reqbid;
+				$("#ontable"+player).html(p3bid+"$");}
+			else if(player==4){
+				p4money-=reqbid-p4bid;
+				$("#money"+player).html(p4money+"$");
+				p4bid=reqbid;
+				$("#ontable"+player).html(p4bid+"$");}
+			bidturn=1;}
+			else{fold(player)
+				bidturn=0;
+			}
 	}
 
 	function call(player,playermoney,playerbid){
-		$('#move'+player).html('CALL');
-		if(player==1){
-		p1money-=reqbid-p1bid;
-		p1bid=reqbid;
-		$('#ontable'+player).html(p1bid+"$");
-		$("#money"+player).html(p1money+"$");}
-		else if(player==2){
-		p2money-=reqbid-p2bid;
-		p2bid=reqbid;
-		$('#ontable'+player).html(p2bid+"$");
-		$("#money"+player).html(p2money+"$");}
-		else if(player==3){
-		p3money-=reqbid-p3bid;
-		p3bid=reqbid;
-		$('#ontable'+player).html(p3bid+"$");
-		$("#money"+player).html(p3money+"$");}
-		else{
-		p4money-=reqbid-p4bid;
-		p4bid=reqbid;
-		$('#ontable'+player).html(p4bid+"$");
-		$("#money"+player).html(p4money+"$");}
-		bidturn++;
-		// alert("tablemove"+tablemove+" "+player)
-				if(bidturn==4){
-					bidturn=0;
-					table();
-				}
+		if(unfoldedplayer[player-1]==true){
+			$('#move'+player).html('CALL');
+			if(player==1){
+			p1money-=reqbid-p1bid;
+			p1bid=reqbid;
+			$('#ontable'+player).html(p1bid+"$");
+			$("#money"+player).html(p1money+"$");}
+			else if(player==2){
+			p2money-=reqbid-p2bid;
+			p2bid=reqbid;
+			$('#ontable'+player).html(p2bid+"$");
+			$("#money"+player).html(p2money+"$");}
+			else if(player==3){
+			p3money-=reqbid-p3bid;
+			p3bid=reqbid;
+			$('#ontable'+player).html(p3bid+"$");
+			$("#money"+player).html(p3money+"$");}
+			else{
+			p4money-=reqbid-p4bid;
+			p4bid=reqbid;
+			$('#ontable'+player).html(p4bid+"$");
+			$("#money"+player).html(p4money+"$");}
+			bidturn++;
+			// alert("tablemove"+tablemove+" "+player)
+					if(bidturn==4){
+						bidturn=0;
+						table();
+					}}
+					else{fold(player)}
 	}
 
 	function table(){
@@ -745,6 +753,7 @@ $(document).ready(function s(){
 	p4=[];
 
 	unfoldedplayer=[true,true,true,true];
+	$(".btn-warning").removeClass("disabled");
 
 	tablemove=0;
 	round=0;
@@ -1216,6 +1225,10 @@ $(document).ready(function s(){
 	}
 
 	function playerturn(){
+		if(reqbid>p4bid){
+			$("#btn-checkcall").html("CALL");
+		}
+		else{$("#btn-checkcall").html("CHECK")}
 		// console.log("remove")
 		// $(".btn-warning").removeClass("disabled");
 		//alert("jau")
@@ -1225,7 +1238,7 @@ $(document).ready(function s(){
 
 	$("#btn-fold").click(function(){
 		fold(4);
-		// $(".btn-warning").addClass("disabled");
+		 $(".btn-warning").addClass("disabled");
 		if(round==0){
 			if(dealer==1){
 				pcturn(1,p1money,p1bid);
@@ -1263,12 +1276,12 @@ $(document).ready(function s(){
 	})
 
 	$("#btn-bet").click(function(){
-		bet(4,p4money,p4bid);
+		
+			bet(4,p4money,p4bid);
 		// $(".btn-warning").addClass("disabled");
 		round++;
 		stop=true;
 		playingRound(4);
-
 	})
 
 	$("#btn-checkcall").click(function(){
